@@ -1,0 +1,24 @@
+<!-- templates/AidSearch/scholarships.html -->
+{% extends "AidSearch/index.html" %}
+{% load static %}
+
+{% block content %}
+<main class="container">
+    <h2>Resources</h2>
+        <div class="resources-container">
+        <div class="resource-box">
+            <a href="https://example.com/resource1" target="_blank">
+                <img src="{% static 'AidSearch/img/thumb.jpeg' %}" alt="Resource 1 Thumbnail">
+                <p>Financial Aid FAQs: Common Questions and Answers From Current College Students</p>
+            </a>
+        </div>
+        <div class="resource-box">
+            <a href="https://example.com/resource2" target="_blank">
+                <img src="{% static 'AidSearch/img/thumb2.jpeg' %}" alt="Resource 2 Thumbnail">
+                <p>Financial Literacy for College Students: Essential Money Management Skills </p>
+            </a>
+        </div>
+        <!-- Add more resource boxes as needed -->
+    </div>
+</main>
+{% endblock %}

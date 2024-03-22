@@ -1,0 +1,94 @@
+<!-- templates/AidSearch/scholarships.html -->
+{% extends "AidSearch/index.html" %}
+{% load static %}
+{% block content %}
+<main class="container">
+    <h3>My Account</h3>
+    <div class="user-info-box" id="userInfoBox">
+        <img alt="Profile Picture" class="profile-image-placeholder" src="">
+        <p class="user-name  editableContent" tabindex="0" id="userName">Name: Jane Doe</p>
+        <p class="user-username  editableContent" tabindex="1" id="userUsername">Username: @janedoe</p>
+        <button class = "editButton" id="editUserInfo">Edit</button>
+    </div>
+
+    <div class="account-details-container">
+        <div class="left-column">
+            <h3>Privacy Settings</h3>
+            <div class="user-info-box" id="privacyInfoBox">
+                <p class="priv-faceid" id="privfaceid">Face ID / Touch ID</p>
+                <p class="priv-uni" id="privuni">University</p>
+            </div>
+
+            <h3>More</h3>
+            <div class="user-info-box" id="moreInfoBox">
+                <p class="more-help" id="morehelp">Help & Support</p>
+                <p class="more-about" id="moreabout">About AIDVISOR</p>
+                <p class="more-logout" id="morelogout">Log Out</p>
+            </div>
+        </div>
+
+        <div class="right-column">
+            <h3>Personal Information</h3>
+            <form class="user-info-box" id="personalInfoBox" action="/api/edit-user-details">
+                <label>
+                    Age
+                    <input class="pid-age  editableContent" tabindex="0"  id="pidage" />
+                </label>
+                <p class="pid-gender  editableContent" tabindex="2" id="pidgender">Gender</p>
+                <p class="pid-eth  editableContent" tabindex="3" id="pideth">Ethnicity</p>
+                <p class="pid-vet  editableContent" tabindex="4" id="pidvet">Veteran Status: No</p>
+                <p class="pid-qada  editableContent" tabindex="5" id="pidqada">Qualified under ADA: No</p>
+                <p class="pid-inc  editableContent" tabindex="6" id="pidinc">Household Income: $50,000-$100,000</p>
+                <p class="pid-yr  editableContent" tabindex="7" id="pidyr">School Year: 2nd Year (Sophomore)</p>
+                <p class="pid-marital  editableContent" tabindex="8" id="pidmarital">Marital Status: Single</p>
+                <p class="pid-employ  editableContent" tabindex="9" id="pidemploy">Employment Status: Student</p>
+                <p class="pid-involvement  editableContent" tabindex="10" id="pidinvolvement">Involvement: Art Club, PRSSA, Sorority</p>
+                <button class="editButton" type="submit" tabindex="12">Submit</button>
+            </form>
+        </div>
+    </div>
+
+
+</main>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    const editButtons = document.querySelectorAll('.editButton');
+    const editableContents = document.querySelectorAll('.editableContent'); // Ensure these elements have tabindex set to make them focusable
+
+    // Function to toggle edit mode
+    function toggleEditMode(contentElement) {
+        const isEditable = contentElement.getAttribute('contentEditable') === 'true';
+        contentElement.setAttribute('contentEditable', !isEditable);
+    }
+
+    editButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            const contentToEdit = document.getElementById("personalInfoBox").getElementsByClassName("editableContent");
+            for (const content of contentToEdit) {
+                toggleEditMode(content)
+            }
+            contentToEdit[0].focus()
+        });
+    });
+
+    editableContents.forEach((content, index) => {
+        content.addEventListener('keydown', function(e) {
+            // Check if the content is editable and the user is trying to navigate away
+            if (content.getAttribute('contentEditable') === 'true' && (e.key === "ArrowUp" || e.key === "ArrowDown")) {
+                e.preventDefault(); // Prevent the default behavior
+
+                // Calculate the next index for navigation
+                let nextIndex = index + (e.key === "ArrowDown" ? 1 : -1);
+                if (nextIndex >= 0 && nextIndex < editableContents.length) {
+                    editableContents[nextIndex].focus();
+                }
+            }
+        });
+    });
+});
+
+
+</script>
+
+{% endblock %}
