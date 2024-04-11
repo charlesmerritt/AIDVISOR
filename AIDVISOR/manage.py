@@ -8,6 +8,7 @@ from dotenv import load_dotenv
 load_dotenv()
 print(os.getenv("OPENAI_API_KEY"))
 
+
 def main():
     """Run administrative tasks."""
     os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'AIDVISOR.settings')

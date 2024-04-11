@@ -38,7 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'AidSearch',
+    'AidSearch.apps.AidsearchConfig',
 ]
 
 MIDDLEWARE = [
@@ -120,7 +120,7 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'static'),  # Adjust the path as necessary
+    os.path.join('AidSearch', 'static'),  # Adjust the path as necessary
 ]
 
 # Default primary key field type
