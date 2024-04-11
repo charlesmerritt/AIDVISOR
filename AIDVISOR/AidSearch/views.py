@@ -7,21 +7,36 @@ import os
 import time
 import json
 from dotenv import load_dotenv
+from .models import User
+from .forms import CreateNewUserForm
+
 
 def home(request):
-    return render(request, 'AidSearch/index.html')
+    return render(request, 'AidSearch/index.html', )
+
 
 def history(request):
     return render(request, 'AidSearch/history.html')
 
+
 def myaccount(request):
     return render(request, 'AidSearch/myaccount.html')
+
 
 def resources(request):
     return render(request, 'AidSearch/resources.html')
 
+
 def saved(request):
     return render(request, 'AidSearch/saved.html')
+
+
+def create(request):
+    form = CreateNewUserForm
+    return render(request, 'AidSearch/create.html', {"form": form})
+
+def register(request):
+    return render()
 
 @require_http_methods(["POST"])
 def assistant_query(request):
@@ -37,6 +52,7 @@ def assistant_query(request):
     )
     print(key)
 
+    # TODO: Create context from user info
     file = client.files.retrieve(
         file_id="file-myOPkDcUdM7eIj9HOfRrl3DD"
     )
