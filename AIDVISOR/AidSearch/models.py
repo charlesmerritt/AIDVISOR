@@ -3,8 +3,8 @@ from django.db import models
 
 # Create your models here.
 class User(models.Model):
-    username = models.CharField(max_length=50)
-    password = models.CharField(max_length=50)
+    username = models.CharField(max_length=100)
+    password = models.CharField(max_length=200)
 
     def __str__(self):
         return self.username
@@ -16,20 +16,20 @@ class User(models.Model):
         SENIOR = "SR"
         GRADUATE = "GR"
         YEAR_IN_SCHOOL_CHOICES = {
-            FRESHMAN: "Freshman",
-            SOPHOMORE: "Sophomore",
-            JUNIOR: "Junior",
-            SENIOR: "Senior",
-            GRADUATE: "Graduate",
+            (FRESHMAN, "Freshman"),
+            (SOPHOMORE, "Sophomore"),
+            (JUNIOR, "Junior"),
+            (SENIOR, "Senior"),
+            (GRADUATE, "Graduate"),
         }
 
         SINGLE = "SI"
         MARRIED = "MA"
         SEPARATED = "SE"
         MARITAL_CHOICES = {
-            SINGLE: "Single",
-            MARRIED: "Married",
-            SEPARATED: "Separated",
+            (SINGLE, "Single"),
+            (MARRIED, "Married"),
+            (SEPARATED, "Separated"),
         }
 
         age = models.PositiveSmallIntegerField()

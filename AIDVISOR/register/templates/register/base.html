@@ -1,0 +1,12 @@
+{% extends "AidSearch/index.html" %}
+
+{% block title %} Create an Account{% endblock %}
+<link rel="stylesheet" href="{% static 'AidSearch/css/style.css' %}">
+
+{% block content %}
+    <form method="post" class="forms">
+        {{form}}
+        {% csrf_token %}
+        <button type="submit" class="editButton">Register</button>
+    </form>
+{% endblock %}
