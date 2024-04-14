@@ -93,7 +93,14 @@ body {
     justify-content: center;
     height: 100vh;
     width: 100%;
-    background-color: #f2f2f2;
+    background-color: #004AAD;
+    color: #FFFFFF;
+}
+
+.form > * {
+  width: 80%;
+  max-width: 500px;
+  margin-bottom: 1.5rem;
 }
 
 /* Profile pictures */

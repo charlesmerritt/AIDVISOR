@@ -1,7 +1,8 @@
 {% extends "AidSearch/index.html" %}
 
 {% block title %} Create an Account{% endblock %}
-<link rel="stylesheet" href="{% static 'AidSearch/css/style.css' %}">
+{% load static %}
+<link rel="stylesheet" href="{% static 'register/css/style.css' %}">
 
 {% block content %}
     <form method="post" class="forms">
