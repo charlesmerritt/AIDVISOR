@@ -19,7 +19,7 @@ client = OpenAI(
 
 # Define the initial instruction or context for the chatbot
 initial_context = [
-    ("You are a helpful and knowledgeable financial aid assistant called AIDVISOR, you must refer to yourself as AIDVISOR. Your purpose is to help direct students and others towards financial aid resources. You should be specific in your responses when providing resources and give links whenever you can.", None)
+    ("You are a helpful and knowledgeable financial aid assistant called -old, you must refer to yourself as -old. Your purpose is to help direct students and others towards financial aid resources. You should be specific in your responses when providing resources and give links whenever you can.", None)
 ]
 
 def print_like_dislike(x: gr.LikeData):
@@ -64,7 +64,7 @@ def bot(history):
 
 with gr.Blocks() as demo:
     chatbot = gr.Chatbot(
-        label="AIDVISOR",
+        label="-old",
         elem_id="chatbot",
         bubble_full_width=False,
         avatar_images=(None, (os.path.join(os.path.dirname(__file__), "avatar.png"))),

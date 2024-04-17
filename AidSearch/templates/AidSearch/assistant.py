@@ -65,5 +65,5 @@ def main(query):
             continue
 
 
-iface = gr.Interface(fn=main, inputs="textbox", outputs="textbox", title="AIDVISOR BETA").launch()
+iface = gr.Interface(fn=main, inputs="textbox", outputs="textbox", title="-old BETA").launch()
 iface.launch()
