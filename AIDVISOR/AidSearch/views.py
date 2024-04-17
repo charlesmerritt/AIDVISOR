@@ -1,43 +1,80 @@
-from django.shortcuts import render
 from django.http import JsonResponse
-from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_http_methods
+from django.contrib.auth.decorators import login_required
 import openai
 import os
 import time
 import json
-from dotenv import load_dotenv
-from .models import User
+from .models import User, Scholarship, Info
 from .forms import CreateNewUserForm
+from django.shortcuts import render, redirect
+from django.contrib.auth import authenticate, login
+from django.contrib.auth.forms import AuthenticationForm
 
 
 def home(request):
     return render(request, 'AidSearch/index.html', )
 
 
+@login_required
 def history(request):
     return render(request, 'AidSearch/history.html')
 
 
+@login_required
 def myaccount(request):
     return render(request, 'AidSearch/myaccount.html')
 
 
+@login_required
 def resources(request):
     return render(request, 'AidSearch/resources.html')
 
 
+@login_required
 def saved(request):
-    return render(request, 'AidSearch/saved.html')
+    scholarships = Scholarship.objects.filter(user=request.user)
+    return render(request, 'AidSearch/saved.html', {'scholarships': scholarships})
 
-
-def create(request):
-    form = CreateNewUserForm
-    return render(request, 'AidSearch/create.html', {"form": form})
 
 def register(request):
     return render()
 
+
+@login_required
+@require_http_methods(["POST"])
+def save_scholarship(request):
+    data = request.POST
+    title = data.get('title')
+
+    if title:
+        Scholarship.objects.create(user=request.user, title=title)
+
+    return redirect('/saved')
+
+
+@login_required
+@require_http_methods(["POST"])
+def edit_user_details(request):
+    # Assuming you're receiving a user ID and details to update as JSON
+    user_id = request.POST.get('user_id')
+    age = request.POST.get('age')
+    gender = request.POST.get('gender')
+    # Add more fields as necessary
+
+    try:
+        user_info = Info.objects.get(user_id=user_id)
+        user_info.age = age if age is not None else user_info.age
+        user_info.gender = gender if gender is not None else user_info.gender
+        # Update more fields as necessary
+        user_info.save()
+
+        return JsonResponse({'status': 'success', 'message': 'User details updated successfully.'})
+    except Info.DoesNotExist:
+        return JsonResponse({'status': 'error', 'message': 'User not found.'}, status=404)
+
+
+@login_required
 @require_http_methods(["POST"])
 def assistant_query(request):
     body_unicode = request.body.decode('utf-8')
@@ -50,7 +87,10 @@ def assistant_query(request):
     client = openai.OpenAI(
         api_key=key
     )
-    print(key)
+    if key is not None or "":
+        print("Key found")
+    else:
+        print("Key not found, have you added the API key to your environment?")
 
     # TODO: Create context from user info
     file = client.files.retrieve(
@@ -101,17 +141,3 @@ def assistant_query(request):
             return JsonResponse({
                 "message": messages.data[0].content[0].text.value
             })
-            # Loop through messages and print content based on role
-        #     for msg in messages.data:
-        #         role = msg.role
-        #         # Skip the first user message
-        #         # TODO: Remove bandaid solution
-        #         first_user_message = True
-        #         if role == "user" and first_user_message:
-        #             first_user_message = False
-        #             continue
-        #         content = msg.content[0].text.value
-        #         response += f"{content}\n\n"
-        #     return response + "\n\n"
-        # else:
-        #     continue

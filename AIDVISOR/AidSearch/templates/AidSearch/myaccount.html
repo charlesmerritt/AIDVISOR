@@ -7,7 +7,7 @@
     <div class="user-info-box" id="userInfoBox">
         <img alt="" class="profile-image-placeholder" src="">
         <p class="user-name  editableContent" tabindex="0" id="userName">Name: Jane Doe</p>
-        <p class="user-username  editableContent" tabindex="1" id="userUsername">Username: @janedoe</p>
+        <p class="user-username  editableContent" tabindex="1" id="userUsername">Username: @{{ user.get_username }}</p>
         <button class = "editButton" id="editUserInfo">Edit</button>
     </div>
 

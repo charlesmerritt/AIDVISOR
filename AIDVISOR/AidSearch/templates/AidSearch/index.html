@@ -23,22 +23,37 @@
 
 <div class="top-bar">
     <a href="{% url 'home' %}" class="home-icon">Home</a>
+    {% if user.is_authenticated %}
+    {% block content_auth2 %}
     <a href="{% url 'myaccount' %}" class="profile-icon">
-        <span>Hello Jane!</span>
-        <img alt="" class="profile-image-placeholder" style="width: 50px; height: 50px;">
+        <span>Hello {{ user.get_username }}!</span>
+        <img alt="" class="profile-image-placeholder" style="width: 40px; height: 40px;border-left-width: 1px;border-left-style: solid;border-bottom-width: 1px;border-bottom-style: solid;border-top-width: 1px;border-top-style: solid;border-right-width: 1px;border-right-style: solid;">
     </a>
+    {% endblock %}
+
+<!--  Top-bar if user is not authenticated  -->
+    {% else %}
+    <a href="{% url 'login' %}" class="profile-icon">
+        <span style="padding-right: 5px;">Log in</span>
+        <img alt="" class="profile-image-placeholder" style="width: 40px; height: 40px;border-left-width: 1px;border-left-style: solid;border-bottom-width: 1px;border-bottom-style: solid;border-top-width: 1px;border-top-style: solid;border-right-width: 1px;border-right-style: solid;">
+    </a>
+    {% endif %}
     <button type="button" id="toggleButton" class="toggle-flag">≡</button>
 </div>
 
 <div id="sideWindow" class="side-window">
-
-    <div class="profile-section">
-        <img class="profile-image-placeholder" alt="">
-        <div class="profile-text">
-            <div class="profile-name">Jane Doe</div>
-            <div class="profile-username">@itsjanedoe</div>
+    {% if user.is_authenticated %}
+    {% block content_auth %}
+    <a href="{% url 'myaccount' %}" class="profile-link">
+        <div class="profile-section">
+            <img class="profile-image-placeholder" alt="" style="border-left-width: 1px;border-left-style: solid;border-right-width: 1px;border-right-style: solid;border-bottom-width: 1px;border-bottom-style: solid;border-top-width: 1px;border-top-style: solid;">
+            <div class="profile-text">
+                <div class="profile-name" style="border-left-width: 0px;border-left-style: solid;padding-left: 10px;">Hello {{ user.get_username }}</div>
+                <div class="profile-username"></div>
+            </div>
         </div>
-    </div>
+    </a>
+
 
 
     <nav>
@@ -60,9 +75,37 @@
             </li>
         </ul>
     </nav>
+{% endblock %}
 
+    <!--  Sidebar if user is not authenticated  -->
+    {% else %}
+    <a href="{% url 'login' %}" class="profile-link">
+        <div class="profile-section">
+            <img class="profile-image-placeholder" alt="" style="border-left-width: 1px;border-left-style: solid;border-right-width: 1px;border-right-style: solid;border-bottom-width: 1px;border-bottom-style: solid;border-top-width: 1px;border-top-style: solid;">
+            <div class="profile-text">
+                <div class="profile-name" style="border-left-width: 0px;border-left-style: solid;padding-left: 10px;">Sign in</div>
+                <div class="profile-username"></div>
+            </div>
+        </div>
+    </a>
+
+
+
+    <nav>
+        <ul class="nav nav-stacked">
+            <li class="{% if request.resolver_match.url_name == 'register' %}active{% endif %}">
+                <a href="{% url 'login' %}">Sign in to AIDVISOR</a>
+            </li>
+            <li class="{% if request.resolver_match.url_name == 'resources' %}active{% endif %}">
+                <a href="{% url 'resources' %}">Resources</a>
+            </li>
+            <li class="{% if request.resolver_match.url_name == 'home' %}active{% endif %}">
+                <a href="{% url 'home' %}">AIDVISOR</a>
+            </li>
+        </ul>
+    </nav>
+{% endif %}
 </div>
-<!-- Content inside the block can be overwritten by children -->
 {% block content %}
 <main class="container">
     <p class="scholarship-heading">meet <span class="highlight">Your Scholarship Sidekick</span></p>
@@ -72,24 +115,79 @@
     <button class="editButton" id="askButton">Ask AIDVISOR</button>
     <div id="responseArea"></div>
 
-    <script>
-        document.getElementById('askButton').addEventListener('click', function() {
-            const userInput = document.getElementById('userInput').value;
-            fetch('/api/assistant-query/', { // Update with the correct path to your view
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({query: userInput})
-            })
-                .then(response => response.json())
-                .then(data => {
-                    document.getElementById("responseArea").textContent = data.message
-                    console.log(data); // Do something with the response
-                })
-                .catch(error => console.error('Error:', error));
-        });
-    </script>
+<script>
+    document.getElementById('askButton').addEventListener('click', function() {
+        const userInput = document.getElementById('userInput').value;
+        fetch('/api/assistant-query/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({query: userInput})
+        })
+        .then(response => response.json())
+        .then(data => {
+            const responseArea = document.getElementById("responseArea");
+            responseArea.innerHTML = ''; // Clear previous content if needed
+
+            // Create a container for the scholarship information
+            const scholarshipBox = document.createElement('div');
+            scholarshipBox.classList.add('scholarship-info-box');
+
+            // Create and append the title
+            const title = document.createElement('h4');
+            title.textContent = data.message; // Example to adapt based on actual data structure
+            scholarshipBox.appendChild(title);
+
+            // Create and append the save button
+            const saveButton = document.createElement('button');
+            saveButton.textContent = 'Save This Scholarship';
+            saveButton.className = 'save-button';
+            saveButton.onclick = function () {
+                saveScholarship(title.textContent);
+            };
+            scholarshipBox.appendChild(saveButton);
+
+            // Append the scholarship box to the response area
+            responseArea.appendChild(scholarshipBox);
+        })
+        .catch(error => console.error('Error:', error));
+    });
+
+    function saveScholarship(title, description) {
+        fetch('/api/save-scholarship/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': getCookie('csrftoken') // Ensure CSRF token is sent with request
+            },
+            body: JSON.stringify({title: title, description: description})
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log('Scholarship saved:', data);
+            // Optionally update UI to reflect saved status
+        })
+        .catch(error => console.error('Error saving scholarship:', error));
+    }
+
+    function getCookie(name) {
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            const cookies = document.cookie.split(';');
+            for (let i = 0; i < cookies.length; i++) {
+                const cookie = cookies[i].trim();
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+</script>
+
+
     <div class="example-prompts">
         <p class="try-asking-text">Try asking...</p>
         <button class="prompt-btn">📚 Can you help me find art scholarships?</button>

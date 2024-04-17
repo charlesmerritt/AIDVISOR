@@ -3,7 +3,6 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    height: 100vh;
     width: 100%;
     background-color: #0058c4;
 }
@@ -23,23 +22,9 @@
   width: 100%;
   padding: 0.8rem;
   margin-bottom: 1rem;
-  border: 1px solid #ccc;
+  border: 1px solid #000000;
   border-radius: 0.3rem;
   color: #333;
-}
-
-.forms button {
-  width: 100%;
-  padding: 0.8rem;
-  background-color: #4CAF50;
-  color: white;
-  border: none;
-  border-radius: 0.3rem;
-  cursor: pointer;
-}
-
-.forms button:hover {
-  background-color: #45a049;
 }
 
 @media (max-width: 768px) {
