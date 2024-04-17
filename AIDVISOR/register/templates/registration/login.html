@@ -1,0 +1,17 @@
+{% extends "AidSearch/index.html" %}
+
+{% block title %} Login {% endblock %}
+
+{% load static %}
+<link rel="stylesheet" href="{% static 'register/css/style.css' %}">
+
+{% block content %}
+<div class="forms" style="display: flex; flex-direction: column; align-items: center; padding: 0px;">
+    <form method="post" class="forms" style="width: 100%;">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="editButton">Login</button>
+    </form>
+    <p>No account? Register <a href="/register" style="color: yellow;">here</a></p>
+</div>
+{% endblock %}
