@@ -1,0 +1,334 @@
+:root {
+    --main-bg-color: #004AAD;
+    --main-accent-color: #ecba46;
+}
+
+body {
+    background-color: #004AAD; /* Consistent background color */
+}
+
+/* Common button styles */
+.editButton, #editUserInfo {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+#askButton {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.editButton:hover, #editUserInfo:hover {
+    background-color: #0056b3;
+}
+
+/* Focus and active states for buttons */
+.editButton:focus, .editButton:active,
+#editUserInfo:focus, #editUserInfo:active,
+.prompt-btn:focus, .prompt-btn:active {
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(0,123,255,0.5);
+}
+
+.prompt-btn {
+    padding: 5px 15px; /* Padding inside the buttons */
+    margin: 5px; /* Space between buttons */
+    font-size: 14px; /* Text size inside buttons */
+    border: none; /* Remove the default border */
+    border-radius: 50px; /* High border-radius for pill shape */
+    background-color: #0056b3; /* Example background color */
+    color: white; /* Text color */
+    cursor: pointer; /* Change cursor on hover */
+    transition: background-color 0.3s; /* Smooth transition for hover effect */
+}
+
+.prompt-btn:hover {
+    background-color: #ebca49;
+}
+
+.save-button {
+    padding: 10px 20px;
+    background-color: #0056b3;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease; /* Smooth transition for hover effect */
+}
+
+.save-button:hover {
+    background-color: #ebca49; /* Slightly darker green on hover */
+}
+
+.top-bar, .side-window {
+    background-color: #0058c4; /* Unified color for top bar and sidebar */
+    z-index: 1000;
+}
+
+.top-bar {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%;
+    height: 50px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 10px;
+}
+
+.top-bar a, .top-bar .profile-icon span, .side-window a {
+    color: white;
+    text-decoration: none;
+}
+
+.side-window a:hover {
+    color: black;
+    background-color: #DDDDDD;
+}
+
+.side-window a:active {
+    color: #000000;
+}
+
+.side-window.shown {
+    left: 0;
+}
+
+.forms {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    width: 100%;
+    background-color: #004AAD;
+    color: #ffffff;
+}
+
+.form > * {
+  width: 80%;
+  max-width: 500px;
+  margin-bottom: 1.5rem;
+}
+
+.forms input[type="text"],
+.forms input[type="email"],
+.forms input[type="password"] {
+    color: #000000;  /* Ensures text in inputs is black */
+    background-color: #ffffff; /* Optional: set a background color for contrast */
+}
+
+
+/* Profile pictures */
+.top-bar-profile-pic, .profile-pic {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+}
+
+.user-info-box .profile-pic {
+    width: 100px; /* Overrides width and height for specific instances */
+    height: 100px;
+    margin-bottom: 20px;
+}
+
+.user-info-box input {
+    color: #000000;
+}
+
+.profile-image-placeholder {
+    background-image: url("../img/favicon.748a5db149f4.png");
+    display: inline-flex;
+    width: 111px; /* Default width */
+    height: 111px; /* Default height */
+    border-radius: 50%;
+    object-fit: cover; /* Ensure the image covers the area without distortion */
+    object-position: center;
+    background-size: cover;
+    background-position: center;
+    padding: 18px;
+}
+
+/* Sidebar specifics */
+.side-window {
+    width: 250px;
+    position: fixed;
+    top: 0;
+    left: -250px; /* Hide sidebar off-screen */
+    height: 100%;
+    background-color: #00419a;
+    overflow-x: hidden;
+    transition: left 0.5s ease; /* Smooth transition for sliding */
+    padding-top: 60px; /* Adjust based on the top bar's height */
+    z-index: 999;
+}
+
+.toggle-flag {
+    position: fixed;
+    top: 70px;
+    left: 0;
+    z-index: 1000;
+    transition: left 0.5s ease;
+    background-color: #ebca49;
+    color: gray;
+    border: black;
+    border-radius: 0 5px 5px 0;
+    padding: 5px 10px;
+    cursor: pointer;
+}
+
+/* Profile Section in Sidebar */
+.profile-section {
+    display: flex;
+    align-items: center;
+    padding: 25px;
+}
+
+/* User info box and details container */
+.user-info-box, .scholarship-info-box {
+    text-align: center;
+    width: 80%;
+    margin: 20px auto;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0,0,0.4,0.4);
+    background-color: #00419a;
+    border-radius: 15px;
+    color: #fff;
+}
+
+.account-details-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+.left-column, .right-column {
+    flex: 1;
+    min-width: 280px;
+}
+
+@media (max-width: 600px) {
+    .left-column, .right-column {
+        flex-basis: 100%;
+    }
+}
+
+#privacyInfoBox, #moreInfoBox, #personalInfoBox {
+    text-align: left;
+}
+
+/* Text input styling */
+#userInput {
+    width: 100%; /* Full width of its container */
+    height: 150px; /* Fixed height */
+    padding: 10px; /* Padding for interior space */
+    margin-top: 20px; /* Space above the textarea */
+    font-size: 16px; /* Readable font size */
+    border: 1px solid #ccc; /* Subtle border */
+    border-radius: 5px; /* Rounded corners for aesthetics */
+    box-shadow: inset 0 1px 3px rgba(0,0,0,0.1); /* Inner shadow for depth */
+    background-color: #5E91D6; /* Light background color */
+    color: #FFFFFF; /* White text color */
+    resize: vertical; /* Allows vertical resizing */
+}
+
+#userInput::placeholder {
+    color: #FFFFFF; /* Placeholder text color */
+}
+
+/* Profile text within user info boxes */
+.profile-text .profile-name, .profile-text .profile-username {
+    color: #FFFFFF; /* Ensures readability against the dark background */
+}
+
+.profile-text .profile-username {
+    color: #ebca49; /* Different color for username to distinguish it */
+    font-size: 14px; /* Slightly smaller font size for the username */
+}
+
+/* Active navigation link styling */
+.nav .active a {
+    background-color: #ebca49; /* Highlight color for the active state */
+    color: #000000; /* Dark text for contrast */
+}
+
+/* Main content container styling */
+.container {
+    padding-top: 60px; /* Clear fixed top bar */
+    color: #FFFFFF; /* Text color for content */
+}
+
+/* Special heading styling */
+.scholarship-heading {
+    text-align: center;
+    font-size: 24px; /* Prominent size for the heading */
+    color: #FFFFFF; /* Ensures readability */
+    margin-top: 20px; /* Space from previous content */
+}
+
+.scholarship-heading .highlight {
+    color: #ebca49; /* Accent color for part of the heading */
+    font-weight: bold; /* Additional emphasis */
+}
+
+/* Resources Page */
+.resources-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 20px; /* Adjust gap between boxes */
+}
+
+.resource-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Center content horizontally */
+    text-align: center; /* Center text */
+    width: calc(50% - 10px); /* Example for two columns, adjust the subtraction based on your gap */
+    margin-bottom: 20px; /* Space between rows */
+    background-color: #fff; /* Background color */
+    border-radius: 10px; /* Rounded corners */
+    overflow: hidden; /* Ensures nothing spills out, especially important for rounded corners */
+    padding: 15px; /* Padding inside the boxes */
+}
+
+.resource-box img {
+    width: auto; /* Maintain the image's aspect ratio */
+    height: 150px; /* Fixed height for all images */
+    object-fit: cover; /* Cover the area, may crop the image */
+    object-position: center; /* Center the image within the element */
+}
+
+.resource-box a {
+    color: #000;
+    text-decoration: none;
+    display: block;
+    padding: 15px;
+}
+
+.resource-box p {
+    margin-top: 10px;
+}
+
+@media (max-width: 768px) {
+    .resource-box {
+        flex-basis: 100%; /* Stack the boxes on smaller screens */
+    }
+}
+
+/* Footer styling */
+footer {
+    padding: 20px 0;
+    text-align: center;
+    border-top: 1px solid #bbb; /* Subtle separator */
+    color: #FFFFFF; /* Ensures readability */
+    background-color: #004aad; /* Matches the overall theme */
+}
