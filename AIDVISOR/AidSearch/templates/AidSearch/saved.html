@@ -1,0 +1,17 @@
+<!-- templates/AidSearch/scholarships.html -->
+{% extends "AidSearch/index.html" %}
+
+{% block content %}
+<main class="container">
+    <h1>Saved Scholarships</h1>
+    <div class="scholarships-container">
+        {% for scholarship in scholarships %}
+            <div class="scholarship-info-box">
+                <h4>{{ scholarship.title }}</h4>
+            </div>
+        {% empty %}
+            <p>No scholarships saved yet.</p>
+        {% endfor %}
+    </div>
+</main>
+{% endblock %}
