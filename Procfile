@@ -1,1 +1,1 @@
-web: gunicorn 'AidSearch.wsgi'
+web: gunicorn 'AIDVISOR.wsgi'
