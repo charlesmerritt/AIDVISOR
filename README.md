@@ -2,7 +2,7 @@
 Welcome to our New Media Capstone project dedicated to leveraging LLMs and the OpenAI Assistants API to promote financial aid equity and improve access to scholarships, grants, and other resources for students. 
 - Initially prototyped with **_Gradio_**. 
 - Constructed with **_Django_**.
-- Deployed via **_Railway_** -> aidvisor.chazmerritt.com
+- Deployed via **_Railway_** -> https://aidvisor.chazmerritt.com
 
 Run instructions:
 1) Install Python version 3.11.8
