@@ -6,7 +6,7 @@
 
 {% block content %}
     <form method="post" class="forms">
-        {{form}}
+        {{form.as_table}}
         {% csrf_token %}
         <button type="submit" class="editButton">Register</button>
     </form>
