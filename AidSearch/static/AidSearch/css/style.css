@@ -260,6 +260,28 @@ body {
     color: #000000; /* Dark text for contrast */
 }
 
+.nav-link {
+    display: block;
+    text-decoration: none; /* Remove underline from links */
+    color: white; /* Inherit the text color from parent */
+    background-color: #00419a; /* Initial background color */
+    transition: background-color 0.3s, color 0.3s; /* Smooth transition for hover effects */
+    border-left-width: 0px;
+    border-left-style: solid;
+    border-right-width: 0px;
+    border-right-style: solid;
+    border-bottom-width: 0px;
+    border-bottom-style: solid;
+    border-top-width: 0px;
+    border-top-style: solid;
+    padding: 10px 191px 10px 15px;
+}
+
+.nav-link:hover {
+    color: black;
+    background-color: #DDDDDD;
+}
+
 /* Main content container styling */
 .container {
     padding-top: 60px; /* Clear fixed top bar */

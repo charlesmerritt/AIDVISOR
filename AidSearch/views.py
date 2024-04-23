@@ -1,4 +1,5 @@
 from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_http_methods
 from django.contrib.auth.decorators import login_required
 import openai
@@ -41,6 +42,7 @@ def register(request):
     return render()
 
 
+@csrf_exempt
 @login_required
 @require_http_methods(["POST"])
 def save_scholarship(request):
@@ -53,6 +55,7 @@ def save_scholarship(request):
     return redirect('/saved')
 
 
+@csrf_exempt
 @login_required
 @require_http_methods(["POST"])
 def edit_user_details(request):
@@ -74,6 +77,7 @@ def edit_user_details(request):
         return JsonResponse({'status': 'error', 'message': 'User not found.'}, status=404)
 
 
+@csrf_exempt
 @login_required
 @require_http_methods(["POST"])
 def assistant_query(request):
@@ -93,13 +97,13 @@ def assistant_query(request):
         print("Key not found, have you added the API key to your environment?")
 
     # TODO: Create context from user info
-    file = client.files.retrieve(
-        file_id="file-myOPkDcUdM7eIj9HOfRrl3DD"
-    )
-    if file is not None:
-        print(file)
-    else:
-        print("No file found")
+    # file = client.files.retrieve(
+    #     file_id="file-myOPkDcUdM7eIj9HOfRrl3DD"
+    # )
+    # if file is not None:
+    #     print(file)
+    # else:
+    #     print("No file found")
 
     assistant = client.beta.assistants.retrieve(
         assistant_id="asst_xq0jreBs6VfI91fK7FQ5CSQC"

@@ -1,5 +1,5 @@
 """
-WSGI config for -old project.
+WSGI config for AIDVISOR project.
 
 It exposes the WSGI callable as a module-level variable named ``application``.
 

@@ -40,14 +40,14 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'AidSearch.apps.AidsearchConfig',
     'register.apps.RegisterConfig',
-'whitenoise.runserver_nostatic',
+    'whitenoise.runserver_nostatic',
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
-    #'django.middleware.csrf.CsrfViewMiddleware',
+    'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
@@ -80,11 +80,13 @@ WSGI_APPLICATION = 'AIDVISOR.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
-}
-
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'railway',
+        'USER': 'postgres',
+        'PASSWORD': os.getenv("PGPASSWORD"),
+        'HOST': 'monorail.proxy.rlwy.net',
+        'PORT': '14533',
+    }}
 
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
@@ -107,7 +109,7 @@ AUTH_PASSWORD_VALIDATORS = [
 CSRF_TRUSTED_ORIGINS = [
     'https://chazmerritt',
     'https://chazmerritt.com',
-    'aidvisor.chazmerritt.com',
+    'https://aidvisor.chazmerritt.com',
 ]
 
 # Internationalization

@@ -7,7 +7,6 @@ import time
 print(os.environ)
 print("Gradio Version: " + gr.__version__)
 
-load_dotenv(find_dotenv())
 key = os.getenv("OPENAI_API_KEY")
 client = OpenAI(
     api_key=key
@@ -19,7 +18,7 @@ client = OpenAI(
 
 # Define the initial instruction or context for the chatbot
 initial_context = [
-    ("You are a helpful and knowledgeable financial aid assistant called -old, you must refer to yourself as -old. Your purpose is to help direct students and others towards financial aid resources. You should be specific in your responses when providing resources and give links whenever you can.", None)
+    ("You are a helpful and knowledgeable financial aid assistant called AIDVISOR, you must refer to yourself as AIDVISOR. Your purpose is to help direct students and others towards financial aid resources. You should be specific in your responses when providing resources and give links whenever you can.", None)
 ]
 
 def print_like_dislike(x: gr.LikeData):
@@ -64,7 +63,7 @@ def bot(history):
 
 with gr.Blocks() as demo:
     chatbot = gr.Chatbot(
-        label="-old",
+        label="AIDVISOR",
         elem_id="chatbot",
         bubble_full_width=False,
         avatar_images=(None, (os.path.join(os.path.dirname(__file__), "avatar.png"))),

@@ -1,5 +1,6 @@
 from django.db import models
 from django.conf import settings
+from annoying.fields import AutoOneToOneField
 
 
 # Create your models here.
@@ -59,7 +60,7 @@ class User(models.Model):
 
 
 class Info(models.Model):
-    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='info')
+    user = AutoOneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='info')
 
     FRESHMAN = "FR"
     SOPHOMORE = "SO"

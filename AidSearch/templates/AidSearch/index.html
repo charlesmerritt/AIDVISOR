@@ -31,7 +31,7 @@
     </a>
     {% endblock %}
 
-<!--  Top-bar if user is not authenticated  -->
+    <!--  Top-bar if user is not authenticated  -->
     {% else %}
     <a href="{% url 'login' %}" class="profile-icon">
         <span style="padding-right: 5px;">Log in</span>
@@ -75,7 +75,14 @@
             </li>
         </ul>
     </nav>
-{% endblock %}
+
+    <li>
+        <form action="{% url 'logout' %}" method="post" class="logout-form">
+            {% csrf_token %}
+            <button type="submit" class="nav-link">Logout</button>
+        </form>
+    </li>
+    {% endblock %}
 
     <!--  Sidebar if user is not authenticated  -->
     {% else %}
@@ -104,88 +111,96 @@
             </li>
         </ul>
     </nav>
-{% endif %}
+    {% endif %}
 </div>
 {% block content %}
 <main class="container">
     <p class="scholarship-heading">meet <span class="highlight">Your Scholarship Sidekick</span></p>
+    {% if user.is_authenticated %}
+    {% block content_auth_prompt %}
     <textarea id="userInput"
               aria-label="inputField"
               placeholder="Ask me anything..."></textarea>
+    {% endblock %}
+    {% else %}
+    <textarea id="userInput"
+              aria-label="inputField"
+              placeholder="You must log in to use AIDVISOR!"></textarea>
+    {% endif %}
     <button class="editButton" id="askButton">Ask AIDVISOR</button>
     <div id="responseArea"></div>
 
-<script>
-    document.getElementById('askButton').addEventListener('click', function() {
-        const userInput = document.getElementById('userInput').value;
-        fetch('/api/assistant-query/', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({query: userInput})
-        })
-        .then(response => response.json())
-        .then(data => {
-            const responseArea = document.getElementById("responseArea");
-            responseArea.innerHTML = ''; // Clear previous content if needed
+    <script>
+        document.getElementById('askButton').addEventListener('click', function() {
+            const userInput = document.getElementById('userInput').value;
+            fetch('/api/assistant-query/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({query: userInput})
+            })
+                .then(response => response.json())
+                .then(data => {
+                    const responseArea = document.getElementById("responseArea");
+                    responseArea.innerHTML = ''; // Clear previous content if needed
 
-            // Create a container for the scholarship information
-            const scholarshipBox = document.createElement('div');
-            scholarshipBox.classList.add('scholarship-info-box');
+                    // Create a container for the scholarship information
+                    const scholarshipBox = document.createElement('div');
+                    scholarshipBox.classList.add('scholarship-info-box');
 
-            // Create and append the title
-            const title = document.createElement('h4');
-            title.textContent = data.message; // Example to adapt based on actual data structure
-            scholarshipBox.appendChild(title);
+                    // Create and append the title
+                    const title = document.createElement('h4');
+                    title.textContent = data.message; // Example to adapt based on actual data structure
+                    scholarshipBox.appendChild(title);
 
-            // Create and append the save button
-            const saveButton = document.createElement('button');
-            saveButton.textContent = 'Save This Scholarship';
-            saveButton.className = 'save-button';
-            saveButton.onclick = function () {
-                saveScholarship(title.textContent);
-            };
-            scholarshipBox.appendChild(saveButton);
+                    // Create and append the save button
+                    const saveButton = document.createElement('button');
+                    saveButton.textContent = 'Save This Scholarship';
+                    saveButton.className = 'save-button';
+                    saveButton.onclick = function () {
+                        saveScholarship(title.textContent);
+                    };
+                    scholarshipBox.appendChild(saveButton);
 
-            // Append the scholarship box to the response area
-            responseArea.appendChild(scholarshipBox);
-        })
-        .catch(error => console.error('Error:', error));
-    });
+                    // Append the scholarship box to the response area
+                    responseArea.appendChild(scholarshipBox);
+                })
+                .catch(error => console.error('Error:', error));
+        });
 
-    function saveScholarship(title, description) {
-        fetch('/api/save-scholarship/', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'X-CSRFToken': getCookie('csrftoken') // Ensure CSRF token is sent with request
-            },
-            body: JSON.stringify({title: title, description: description})
-        })
-        .then(response => response.json())
-        .then(data => {
-            console.log('Scholarship saved:', data);
-            // Optionally update UI to reflect saved status
-        })
-        .catch(error => console.error('Error saving scholarship:', error));
-    }
+        function saveScholarship(title, description) {
+            fetch('/api/save-scholarship/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': getCookie('csrftoken') // Ensure CSRF token is sent with request
+                },
+                body: JSON.stringify({title: title, description: description})
+            })
+                .then(response => response.json())
+                .then(data => {
+                    console.log('Scholarship saved:', data);
+                    // Optionally update UI to reflect saved status
+                })
+                .catch(error => console.error('Error saving scholarship:', error));
+        }
 
-    function getCookie(name) {
-        let cookieValue = null;
-        if (document.cookie && document.cookie !== '') {
-            const cookies = document.cookie.split(';');
-            for (let i = 0; i < cookies.length; i++) {
-                const cookie = cookies[i].trim();
-                if (cookie.substring(0, name.length + 1) === (name + '=')) {
-                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-                    break;
+        function getCookie(name) {
+            let cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                const cookies = document.cookie.split(';');
+                for (let i = 0; i < cookies.length; i++) {
+                    const cookie = cookies[i].trim();
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
                 }
             }
+            return cookieValue;
         }
-        return cookieValue;
-    }
-</script>
+    </script>
 
 
     <div class="example-prompts">
